@@ -68,7 +68,7 @@ def pregunta_01():
 
     # Remueva la columna `veil-type` del DataFrame `df`.
     # Esta columna tiene un valor constante y no sirve para la detección de hongos.
-    df.drop('veil_type',axis=1,inplace=True)
+    df.drop('veil_type', axis=1, inplace=True)
 
     # Asigne la columna `type` a la variable `y`.
     y = df['type']
@@ -77,7 +77,7 @@ def pregunta_01():
     X = df.copy()
 
     # Remueva la columna `type` del DataFrame `X`.
-    X.drop('type',axis=1,inplace =True)
+    X.drop('type', axis=1, inplace=True)
 
     # Retorne `X` y `y`
     return X, y
@@ -89,18 +89,18 @@ def pregunta_02():
     """
 
     # Importe train_test_split
-    from ____ import ____
+    from sklearn.model_selection import train_test_split
 
     # Cargue los datos de ejemplo y asigne los resultados a `X` y `y`.
     X, y = pregunta_01()
 
     # Divida los datos de entrenamiento y prueba. La semilla del generador de números
     # aleatorios es 123. Use 50 patrones para la muestra de prueba.
-    (X_train, X_test, y_train, y_test,) = ____(
-        ____,
-        ____,
-        test_size=____,
-        random_state=____,
+    (X_train, X_test, y_train, y_test,) = train_test_split(
+        X,
+        y,
+        test_size=50,
+        random_state=123,
     )
 
     # Retorne `X_train`, `X_test`, `y_train` y `y_test`
@@ -122,8 +122,9 @@ def pregunta_03():
     # Importe LogisticRegressionCV
     # Importe OneHotEncoder
     # Importe Pipeline
-    from ____ import ____
-
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import OneHotEncoder
+    from sklearn.linear_model import LogisticRegressionCV
     # Cargue las variables.
     X_train, _, y_train, _ = pregunta_02()
 
@@ -131,13 +132,13 @@ def pregunta_03():
     # LogisticRegression con una regularización Cs=10
     pipeline = Pipeline(
         steps=[
-            ("____", ____()),
-            ("____", ____(____)),
+            ("oneHot", OneHotEncoder()),
+            ("LG", LogisticRegressionCV(Cs=10)),
         ],
     )
 
     # Entrene el pipeline con los datos de entrenamiento.
-    ____.____(____, ____)
+    pipeline.fit(X_train, y_train)
 
     # Retorne el pipeline entrenado
     return pipeline
